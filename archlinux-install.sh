@@ -10,6 +10,7 @@
 
 # User information
 username=eric
+username_passwd=login1
 
 # User config information
 dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
@@ -22,7 +23,8 @@ category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
 category_media='vlc'
 category_shell='rsync zsh git powertop stow rxvt-unicode wget linux-headers'
 category_dev='cmake make gcc'
-category_install="${category_internet} ${category_media} ${category_shell} ${category_dev}"
+category_compression='dtrx p7zip unrar'
+category_install="${category_internet} ${category_compression} ${category_media} ${category_shell} ${category_dev}"
 
 ##### Behavior Variables #####
 git_clone_flags='--recursive' # quiet?
@@ -98,16 +100,6 @@ mv /boot/syslinux/syslinux.cfg.new /boot/syslinux/syslinux.cfg
 sed 's/root=.*/root=\/dev\/sda2 ro/' < /boot/syslinux/syslinux.cfg > /boot/syslinux/syslinux.cfg.new
 mv /boot/syslinux/syslinux.cfg.new /boot/syslinux/syslinux.cfg
 
-# Install general packages
-for apps in ${categories_install}; do
-    pacman --noconfirm -S ${apps}
-done
-
-# Install python tools
-pacman --noconfirm -S python-setuptools
-easy_install pip
-pip install virtualenv{,wrapper}
-
 # Install yaourt
 cat <<EOF >> /etc/pacman.conf
 
@@ -128,18 +120,31 @@ EDITFILES=0
 NOENTER=1
 EOF
 
-# todo: yaourt dtrx p7zip unrar
-# todo: pacmatic
+# Install general packages
+for apps in ${categories_install}; do
+    yaourt --noconfirm -S ${apps}
+done
+
+# Install python tools
+pacman --noconfirm -S python-setuptools
+easy_install pip
+pip install virtualenv{,wrapper}
+
+# Install pacmatic
+yaourt --noconfirm -S pacmatic
+# todo: configure pacmatic
 
 # set root password to "root"
 echo root:root | chpasswd
 
 # Creating and configuring user ${username}
 useradd -rms $(which zsh) ${username}
-echo ${username}:login1 | chpasswd
 for group in power, wheel; do
     gpasswd -a ${username} ${goup}
 done
+
+# Set ${username} password to "${username_passwd}"
+echo ${username}:${username_passwd} | chpasswd
 
 su ${username} <<END_OF_USER_SHELL
 cd /home/${username}
@@ -174,3 +179,16 @@ END_OF_CHROOT
 umount /mnt/{boot,}
 
 echo "Done! Unmount the CD image from the VM, then type 'reboot'."
+
+# todo: abstract this report with a method to register created users
+echo "User summary:"
+echo "\tUser:\t\tPassword:"
+echo "--------------------------"
+echo "\troot\t\troot"
+echo "\t${username}\t\t${username_passwd}"
+echo
+echo
+
+# todo:
+echo "Host summary:"
+echo "-------------"
