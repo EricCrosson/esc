@@ -167,6 +167,7 @@ done
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 END_OF_USER_SHELL
 
+# todo: if school laptop install, clone classes and other workspace repos
 END_OF_CHROOT
 
 # unmount
