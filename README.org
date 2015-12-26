@@ -1,0 +1,37 @@
+* Archlinux Bootstrap
+
+Inspired by [[https://github.com/wuputah][wuputah]]'s vm-bootstrapping [[https://gist.github.com/wuputah/4982514][gist]], this script interfaces with
+the [[https://www.archlinux.org/][Arch GNU/Linux]] installer shell and provisions a simple, working system.
+
+This is not intended to be as robust as an infrastructure-as-code solution.
+It came mostly assembled, and every time I use it I automate a little bit more.
+
+** Installation
+
+You can dump this into your shell to run the script:
+
+#+BEGIN_SRC sh
+  # TODO: get link
+#+END_SRC
+
+** Command line switches
+
+** Changelist
+*** 2015-12-26
+- initial commit to repo from gist
+- todos split from code
+
+** TODOs
+*** getopt argument parsing
+**** minimal flag
+- quicker install
+- determine server items from user terminal items
+*** progress macro
+- turn those comments into literate code
+- display what work is being done
+*** install and configure apps
+- pacmatic
+*** continuous integration
+
+** Credits
+Original gist by [[https://gist.github.com/wuputah/4982514][wuputah]].
