@@ -136,6 +136,7 @@ echo root:root | chpasswd
 
 # Creating and configuring user ${username}
 useradd -rms $(which zsh) ${username}
+echo ${username}:login1 | chpasswd
 for group in power, wheel; do
     gpasswd -a ${username} ${goup}
 done
@@ -166,7 +167,6 @@ done
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 END_OF_USER_SHELL
 
-# todo: set passwd for ${username}
 END_OF_CHROOT
 
 # unmount
