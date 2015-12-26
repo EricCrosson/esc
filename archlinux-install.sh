@@ -62,7 +62,6 @@ pacstrap /mnt base base-devel
 
 # install syslinux
 arch-chroot /mnt pacman --noconfirm -S syslinux
-# todo: shorten syslinux startup time
 
 # copy ranked mirrorlist over
 cp /etc/pacman.d/mirrorlist* /mnt/etc/pacman.d
