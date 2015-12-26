@@ -11,7 +11,7 @@ It came mostly assembled, and every time I use it I automate a little bit more.
 You can dump this into your shell to run the script:
 
 #+BEGIN_SRC sh
-  # TODO: get link
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/archlinux-install.sh)"
 #+END_SRC
 
 ** Command line switches
