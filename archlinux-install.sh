@@ -90,8 +90,8 @@ mkinitcpio -p linux
 # install syslinux bootloader
 syslinux-install_update -i -a -m
 
-# todo: abstract update functionality
-# Shorten boot delay
+# todo: abstract update functionality -- current scheme doesn't make sense twice
+# Shorten syslinux boot delay
 sed 's/Timeout.*/Timeout 5/' < /boot/syslinux/syslinux.cfg > /boot/syslinux/syslinux.cfg.new
 mv /boot/syslinux/syslinux.cfg.new /boot/syslinux/syslinux.cfg
 
