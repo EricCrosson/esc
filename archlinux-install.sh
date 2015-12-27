@@ -31,6 +31,7 @@ git_clone_flags='--recursive' # quiet?
 
 ##### Bootstrap Script #####
 
+## Turn comments into literal programming, including output during execution.
 function reporter() {
     echo
     echo "$1"
