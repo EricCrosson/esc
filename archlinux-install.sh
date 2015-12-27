@@ -63,6 +63,8 @@ mount /dev/sda1 /mnt/boot
 reporter "Ranking pacman mirrors"
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 rankmirrors -n 6 /etc/pacman.d/mirrorlist.orig >/etc/pacman.d/mirrorlist
+
+reporter "Updating pacman repository caches"
 pacman -Syy
 
 reporter "Installing base packages (take a coffee break if you have slow internet)"
