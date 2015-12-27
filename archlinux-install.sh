@@ -11,6 +11,7 @@
 # User information
 username=eric
 username_passwd=login1
+hostname="archlinux-$(date -I)"
 
 # User config information
 dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
@@ -85,7 +86,7 @@ reporter "Chroot-ing into /mnt"
 arch-chroot /mnt /bin/bash <<END_OF_CHROOT
 
 # set initial hostname
-echo "archlinux-$(date -I)" >/etc/hostname
+echo "${hostname}" >/etc/hostname
 
 # set initial timezone to America/Chicago
 ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
