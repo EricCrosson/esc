@@ -82,6 +82,7 @@ cp /etc/pacman.d/mirrorlist* /mnt/etc/pacman.d
 # generate fstab
 genfstab -p /mnt >>/mnt/etc/fstab
 
+# todo: enable logging in the chroot
 reporter "Chroot-ing into /mnt"
 arch-chroot /mnt /bin/bash <<END_OF_CHROOT
 
