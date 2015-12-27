@@ -15,6 +15,7 @@ username_passwd=login1
 # User config information
 dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
 dotfiles_destination=dotfiles
+dotfiles_branch=master
 stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
 
 # Programs to install htop tree sshfs emacs screen acpi lm_sensors vim dialog
@@ -169,6 +170,7 @@ rm -rf .emacs.d/private
 # Install personal dotfiles
 git clone ${git_clone_flags} ${dotfiles_repo} ${dotfiles_destination}
 cd ${dotfiles_destination}
+git checkout ${dotfiles_branch}
 
 # Stow personal configs
 for app in ${stow_list}; do
