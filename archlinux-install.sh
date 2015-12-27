@@ -16,7 +16,6 @@ username_passwd=login1
 dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
 dotfiles_destination=dotfiles
 stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
-stow_list_root=''
 
 # Programs to install htop tree sshfs emacs screen acpi lm_sensors vim dialog
 category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
@@ -162,9 +161,6 @@ cd ${dotfiles_destination}
 # Stow personal configs
 for app in ${stow_list}; do
     stow ${app}
-done
-for app_root in ${stow_list_root}; do
-    stow -t / ${app_root}
 done
 
 # Generate user RSA keys
