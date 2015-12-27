@@ -98,7 +98,7 @@ echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 echo "en_US ISO-8859-1" >>/etc/locale.gen
 locale-gen
 
-# no modifications to mkinitcpio.conf should be needed
+# todo: make modifications to mkinitcpio.conf
 mkinitcpio -p linux
 
 # install syslinux bootloader
