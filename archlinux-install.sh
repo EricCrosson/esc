@@ -34,10 +34,13 @@ git_clone_flags='--recursive' # quiet?
 function reporter() {
     echo
     echo "$1"
-    echo "=================="
+    for i in {1..${#1}}; do
+        echo -n "="
+    done
+    echo
 }
 
-# confirm you can access the internet
+reporter "Confirming internet connection"
 if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "200 OK" ]]; then
   echo "Your Internet seems broken. Press Ctrl-C to abort or enter to continue."
   read
