@@ -47,6 +47,8 @@ reporter "Confirming internet connection"
 if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "200 OK" ]]; then
   echo "Your Internet seems broken. Press Ctrl-C to abort or enter to continue."
   read
+else
+  echo "Connection successful"
 fi
 
 reporter "Making 2 partitions on the disk -- boot and root"
@@ -67,10 +69,8 @@ reporter "Ranking pacman mirrors"
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 rankmirrors -n 6 /etc/pacman.d/mirrorlist.orig >/etc/pacman.d/mirrorlist
 
-reporter "Updating pacman repository caches"
-pacman -Syy
-
 reporter "Installing base packages (take a coffee break if you have slow internet)"
+pacman -Syy
 pacstrap /mnt base base-devel
 
 reporter "Installing system"
