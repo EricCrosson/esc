@@ -38,7 +38,7 @@ function reporter() {
     echo
     echo "$1"
     for i in {1..${#1}}; do
-        echo -n "="
+        echo -n "-"
     done
     echo
 }
@@ -194,7 +194,7 @@ echo "Done! Unmount the CD image from the VM, then type 'reboot'."
 # todo: abstract this report with a method to register created users
 echo "User summary:"
 echo "\tUser:\t\tPassword:"
-echo "--------------------------"
+echo "=========================="
 echo "\troot\t\troot"
 echo "\t${username}\t\t${username_passwd}"
 echo
@@ -202,4 +202,4 @@ echo
 
 # todo:
 echo "Host summary:"
-echo "-------------"
+echo "============="
