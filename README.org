@@ -14,6 +14,14 @@ You can dump this into your shell to run the script:
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/archlinux-install.sh)"
 #+END_SRC
 
+Or, if you prefer editing the script first:
+
+#+BEGIN_SRC sh
+  wget -O installer.sh https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/archlinux-install.sh && \
+  chmod +x installer.sh && \
+  vim installer.sh && ./installer.sh
+#+END_SRC
+
 ** Command line switches
 
 ** Changelist
