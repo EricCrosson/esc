@@ -194,14 +194,14 @@ umount /mnt/{boot,}
 echo "Done! Unmount the CD image from the VM, then type 'reboot'."
 
 # todo: abstract this report with a method to register created users
-echo "User summary:"
-echo "\tUser:\t\tPassword:"
-echo "=========================="
-echo "\troot\t\troot"
-echo "\t${username}\t\t${username_passwd}"
-echo
-echo
+echo -e "User summary:"
+echo -e "\tUser:\t\tPassword:"
+echo -e "=========================="
+echo -e "\troot\t\troot"
+echo -e "\t${username}\t\t${username_passwd}"
+echo -e
+echo -e
 
 # todo:
-echo "Host summary:"
-echo "============="
+echo -e "Host summary:"
+echo -e "============="
