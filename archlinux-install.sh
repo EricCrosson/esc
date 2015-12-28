@@ -35,10 +35,12 @@ git_clone_flags='--recursive' # quiet?
 
 ## Turn comments into literal programming, including output during execution.
 function reporter() {
+    message="$1"
+    shift
     echo
-    echo "$1"
-    for i in {1..${#1}}; do
-        echo -n "-"
+    echo "${message}"
+    for (( i=0; i<${#message}; i++ )); do
+        echo -n '-'
     done
     echo
 }
