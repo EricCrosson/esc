@@ -77,13 +77,14 @@ dotfiles_destination=dotfiles
 dotfiles_branch=master
 stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
 
-# Programs to install htop tree sshfs emacs screen acpi lm_sensors vim dialog
+# Programs to install
+category_utils='htop tree sshfs emacs screen acpi lm_sensors vim dialog'
 category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
 category_media='vlc'
 category_shell='rsync zsh git powertop stow rxvt-unicode wget linux-headers'
 category_dev='cmake make gcc'
 category_compression='dtrx p7zip unrar'
-category_install="${category_internet} ${category_compression} ${category_media} ${category_shell} ${category_dev}"
+category_install="${category_internet} ${category_compression} ${category_utils} ${category_media} ${category_shell} ${category_dev}"
 
 ##### Behavior Variables #####
 git_clone_flags='--recursive' # quiet?
