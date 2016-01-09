@@ -2,43 +2,16 @@
 # Written by esc, wuputah
 # 2015-12-26
 
-# todo: pass $1 == hostname
-
-# todo: parse arguments to set these variables
-
-##### Bootstrap Variables #####
-
-# User information
-username=eric
-username_passwd=login1
-hostname="archlinux-$(date -I)"
-
-# User config information
-dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
-dotfiles_destination=dotfiles
-dotfiles_branch=master
-stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
-
-# Programs to install htop tree sshfs emacs screen acpi lm_sensors vim dialog
-category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
-category_media='vlc'
-category_shell='rsync zsh git powertop stow rxvt-unicode wget linux-headers'
-category_dev='cmake make gcc'
-category_compression='dtrx p7zip unrar'
-category_install="${category_internet} ${category_compression} ${category_media} ${category_shell} ${category_dev}"
-
-##### Behavior Variables #####
-git_clone_flags='--recursive' # quiet?
-
-
 ##### Bootstrap Script #####
 
 ## Turn comments into literal programming, including output during execution.
 function reporter() {
+    message="$1"
+    shift
     echo
-    echo "$1"
-    for i in {1..${#1}}; do
-        echo -n "-"
+    echo "${message}"
+    for (( i=0; i<${#message}; i++ )); do
+        echo -n '-'
     done
     echo
 }
@@ -87,6 +60,36 @@ reporter "Chroot-ing into /mnt"
 arch-chroot /mnt /bin/bash <<END_OF_CHROOT
 
 # set initial hostname
+# todo: pass $1 == hostname
+
+# todo: parse arguments to set these variables
+
+##### Bootstrap Variables #####
+
+# User information
+username=eric
+username_passwd=login1
+hostname="archlinux-$(date -I)"
+
+# User config information
+dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
+dotfiles_destination=dotfiles
+dotfiles_branch=master
+stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
+
+# Programs to install
+category_utils='htop tree sshfs emacs screen acpi lm_sensors vim dialog'
+category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
+category_media='vlc'
+category_shell='rsync zsh git powertop stow rxvt-unicode wget linux-headers'
+category_dev='cmake make gcc'
+category_compression='dtrx p7zip unrar'
+category_install="${category_internet} ${category_compression} ${category_utils} ${category_media} ${category_shell} ${category_dev}"
+
+##### Behavior Variables #####
+git_clone_flags='--recursive' # quiet?
+
+
 echo "${hostname}" >/etc/hostname
 
 # set initial timezone to America/Chicago
@@ -118,7 +121,7 @@ cat <<EOF >> /etc/pacman.conf
 
 [archlinuxfr]
 SigLevel = Never
-Server = http://repo.archlinux.fr/\$arch
+Server = http://repo.archlinux.fr/\\$arch
 EOF
 pacman --noconfirm -Sy yaourt
 
@@ -193,14 +196,14 @@ umount /mnt/{boot,}
 echo "Done! Unmount the CD image from the VM, then type 'reboot'."
 
 # todo: abstract this report with a method to register created users
-echo "User summary:"
-echo "\tUser:\t\tPassword:"
-echo "=========================="
-echo "\troot\t\troot"
-echo "\t${username}\t\t${username_passwd}"
-echo
-echo
+echo -e "User summary:"
+echo -e "\tUser:\t\tPassword:"
+echo -e "=========================="
+echo -e "\troot\t\troot"
+echo -e "\t${username}\t\t${username_passwd}"
+echo -e
+echo -e
 
 # todo:
-echo "Host summary:"
-echo "============="
+echo -e "Host summary:"
+echo -e "============="
