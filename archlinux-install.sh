@@ -127,10 +127,11 @@ cat <<EOF >> /etc/yaourtrc
 
 # esc's customizations
 NOCONFIRM=1
-UP_NOCONFIRM=0
+UP_NOCONFIRM=1
 BUILD_NOCONFIRM=1
 EDITFILES=0
 NOENTER=1
+USECOLOR=1
 EOF
 
 # Install general packages
