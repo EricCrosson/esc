@@ -198,6 +198,8 @@ reporter "Generate user RSA keys"
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 END_OF_USER_SHELL
 
+echo $TEST_OF_CHROOT
+echo "did the test work?"
 END_OF_CHROOT
 
 # unmount
