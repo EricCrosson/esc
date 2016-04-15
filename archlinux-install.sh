@@ -87,7 +87,7 @@ category_compression='dtrx p7zip unrar'
 category_install="${category_internet} ${category_compression} ${category_utils} ${category_media} ${category_shell} ${category_dev}"
 
 ##### Behavior Variables #####
-git_clone_flags='--recursive' # quiet?
+git_clone_flags='--recursive --depth 1' # quiet?
 
 
 echo "${hostname}" >/etc/hostname
