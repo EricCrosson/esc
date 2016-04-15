@@ -149,9 +149,7 @@ USECOLOR=1
 EOF
 
 reporter "Install general packages"
-for apps in ${categories_install}; do
-    yaourt --noconfirm -S ${apps}
-done
+yaourt --noconfirm -S ${category_install}
 
 reporter "Install python tools"
 pacman --noconfirm -S python-setuptools
