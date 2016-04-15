@@ -38,11 +38,11 @@ mount /dev/sda2 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
-reporter "Ranking pacman mirrors"
+reporter "Ranking pacman mirrors (take a coffee break if you have slow internet)"
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 rankmirrors -n 6 /etc/pacman.d/mirrorlist.orig >/etc/pacman.d/mirrorlist
 
-reporter "Installing base packages (take a coffee break if you have slow internet)"
+reporter "Installing base packages"
 pacman -Syy
 pacstrap /mnt base base-devel
 
