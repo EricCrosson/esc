@@ -31,7 +31,7 @@ parted -s /dev/sda mkpart primary 100m 100%
 
 reporter "Making filesystems"
 mkfs.ext2 /dev/sda1  # /boot
-mkfs.btrfs /dev/sda2 # /
+mkfs.ext4 /dev/sda2 # /
 
 reporter "Setting up /mnt"
 mount /dev/sda2 /mnt
