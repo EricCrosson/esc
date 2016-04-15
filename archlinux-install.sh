@@ -23,7 +23,7 @@ if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "200 OK" ]]; then
 else
   echo "Connection successful"
 fi
-
+export TEST_OF_CHROOT="secretmessage"
 reporter "Making 2 partitions on the disk -- boot and root"
 parted -s /dev/sda mktable msdos
 parted -s /dev/sda mkpart primary 0% 100m
@@ -72,9 +72,9 @@ username_passwd=login1
 hostname="archlinux-$(date -I)"
 
 # User config information
-dotfiles_repo=https://github.com/ericcrosson/dotfiles.git
+dotfiles_repo=https://github.com/ericcrosson/dotfiles-new.git
 dotfiles_destination=dotfiles
-dotfiles_branch=master
+dotfiles_branch=archlinux
 stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
 
 # Programs to install
@@ -87,7 +87,7 @@ category_compression='dtrx p7zip unrar'
 category_install="${category_internet} ${category_compression} ${category_utils} ${category_media} ${category_shell} ${category_dev}"
 
 ##### Behavior Variables #####
-git_clone_flags='--recursive --depth 1' # quiet?
+git_clone_flags='--recursive --depth 1'
 
 
 echo "${hostname}" >/etc/hostname
@@ -121,7 +121,7 @@ cat <<EOF >> /etc/pacman.conf
 
 [archlinuxfr]
 SigLevel = Never
-Server = http://repo.archlinux.fr/\\$arch
+Server = http://repo.archlinux.fr/\$arch
 EOF
 pacman --noconfirm -Sy yaourt
 
