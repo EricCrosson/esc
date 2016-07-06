@@ -1,0 +1,57 @@
+---
+- shell: ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
+
+- name: Create user "eric"
+  user: name=eric
+        state=present
+        groups=wheel,power
+        append=yes
+        generate_ssh_key=yes
+        ssh_key_bits=2048
+        ssh_key_file=.ssh/id_rsa
+
+- name: Install esc's packages
+  package: name={{item}} state=installed
+  with_items:
+    - chromium
+    - chromium-pepper-flash
+    - cmake
+    - dialog
+    - dtrx
+    - emacs
+    - gcc
+    - git
+    - htop
+    - linux-headers
+    - make
+    - openssh
+    - p7zip
+    - powertop
+    - rsync
+    - rxvt-unicode
+    - screen
+    - sshfs
+    - stow
+    - tree
+    - unrar
+    - uzbl-tabbed
+    - vim
+    - vlc
+    - wget
+    - zsh
+
+- name: Enable sshd
+  systemd: state=started enabled=yes name=sshd
+
+- name: Clone EricCrosson/dotfiles.git
+  git: repo=git://github.com/ericcrosson/dotfiles.git
+       dest=/home/eric/dotfiles
+
+- name: Clone syl20bnr/spacemacs.git
+  git: repo=git://github.com/syl20bnr/spacemacs.git 
+       dest=/home/eric/.emacs.d
+
+- name: Install esc's dotfiles
+  become: yes
+  become_user: eric
+  shell: cd /home/eric/dotfiles && stow emacs zsh htop

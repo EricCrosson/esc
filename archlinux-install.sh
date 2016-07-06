@@ -23,7 +23,6 @@ if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "200 OK" ]]; then
 else
   echo "Connection successful"
 fi
-export TEST_OF_CHROOT="secretmessage"
 reporter "Making 2 partitions on the disk -- boot and root"
 parted -s /dev/sda mktable msdos
 parted -s /dev/sda mkpart primary 0% 100m
@@ -58,10 +57,6 @@ genfstab -p /mnt >>/mnt/etc/fstab
 reporter "Chroot-ing into /mnt"
 arch-chroot /mnt /bin/bash <<END_OF_CHROOT
 
-# set initial hostname
-# todo: pass $1 == hostname
-
-# todo: parse arguments to set these variables
 
 ##### Bootstrap Variables #####
 
@@ -77,34 +72,11 @@ function reporter() {
     echo
 }
 
-# User information
-username=eric
-username_passwd=login1
+# Set initial hostname
 hostname="archlinux-$(date -I)"
-
-# User config information
-dotfiles_repo=https://github.com/ericcrosson/dotfiles-new.git
-dotfiles_destination=dotfiles
-dotfiles_branch=archlinux
-stow_list='bash bin emacs fzf gdb git htop python ruby screen ssh urxvt vim xbindkeys zsh'
-
-# Programs to install
-category_utils='htop tree sshfs emacs screen acpi lm_sensors vim dialog'
-category_internet='openssh chromium{,-pepper-flash} uzbl-tabbed'
-category_media='vlc'
-category_shell='rsync zsh git powertop stow rxvt-unicode wget linux-headers'
-category_dev='cmake make gcc'
-category_compression='dtrx p7zip unrar'
-category_install="${category_internet} ${category_compression} ${category_utils} ${category_media} ${category_shell} ${category_dev}"
-
-##### Behavior Variables #####
-git_clone_flags='--recursive --depth 1'
 
 reporter "Set hostname to ${hostname}"
 echo "${hostname}" >/etc/hostname
-
- reporter "Set initial timezone to America/Chicago"
-ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
 reporter "Set locale"
 locale >/etc/locale.conf
@@ -128,7 +100,7 @@ sed 's/root=.*/root=\/dev\/sda2 ro/' < /boot/syslinux/syslinux.cfg > /boot/sysli
 mv /boot/syslinux/syslinux.cfg.new /boot/syslinux/syslinux.cfg
 
 reporter "Install yaourt"
-cat <<\EOF >> /etc/pacman.conf
+cat <<EOF >> /etc/pacman.conf
 
 [archlinuxfr]
 SigLevel = Never
@@ -163,41 +135,19 @@ yaourt --noconfirm -S pacmatic
 reporter "Set root password to \"root\""
 echo root:root | chpasswd
 
-reporter "Create user ${username}"
-useradd -rms $(which zsh) ${username}
-for group in power, wheel; do
-    gpasswd -a ${username} ${goup}
-done
+# su ${username} <<END_OF_USER_SHELL
+# cd /home/${username}
+# 
+# reporter "Install Oh-My-Zsh"
+# sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# 
+# reporter "Stow personal configs"
+# for app in ${stow_list}; do
+#     stow ${app}
+# done
+# 
+# END_OF_USER_SHELL
 
-reporter "Set ${username} password to \"${username_passwd}\""
-echo ${username}:${username_passwd} | chpasswd
-
-su ${username} <<END_OF_USER_SHELL
-cd /home/${username}
-
-reporter "Install Oh-My-Zsh"
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-reporter "Install spacemacs"
-git clone ${git_clone_flags} https://github.com/syl20bnr/spacemacs.git .emacs.d
-rm -rf .emacs.d/private
-
-reporter "Install personal dotfiles"
-git clone ${git_clone_flags} ${dotfiles_repo} ${dotfiles_destination}
-cd ${dotfiles_destination}
-git checkout ${dotfiles_branch}
-
-reporter "Stow personal configs"
-for app in ${stow_list}; do
-    stow ${app}
-done
-
-reporter "Generate user RSA keys"
-ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-END_OF_USER_SHELL
-
-echo $TEST_OF_CHROOT
-echo "did the test work?"
 END_OF_CHROOT
 
 # unmount
@@ -210,7 +160,6 @@ echo -e "User summary:"
 echo -e "\tUser:\t\tPassword:"
 echo -e "=========================="
 echo -e "\troot\t\troot"
-echo -e "\t${username}\t\t${username_passwd}"
 echo -e
 echo -e
 
