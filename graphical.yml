@@ -14,6 +14,7 @@
       - rxvt-unicode
       - vlc
       - uzbl-tabbed
+      - xorg-xclip
     when: ansible_os_family == "Archlinux"
 
   - name: Install graphical packages
@@ -24,4 +25,5 @@
       - rxvt-unicode
       - vlc
       - uzbl
+      - xclip
     when: ansible_os_family == "Debian"
