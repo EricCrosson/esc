@@ -1,57 +1,136 @@
 ---
-- shell: ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
+- hosts: localhost
 
-- name: Create user "eric"
-  user: name=eric
-        state=present
-        groups=wheel,power
-        append=yes
-        generate_ssh_key=yes
-        ssh_key_bits=2048
-        ssh_key_file=.ssh/id_rsa
+  vars:
+    hostname: necho
+    username: eric
 
-- name: Install esc's packages
-  package: name={{item}} state=installed
-  with_items:
-    - chromium
-    - chromium-pepper-flash
-    - cmake
-    - dialog
-    - dtrx
-    - emacs
-    - gcc
-    - git
-    - htop
-    - linux-headers
-    - make
-    - openssh
-    - p7zip
-    - powertop
-    - rsync
-    - rxvt-unicode
-    - screen
-    - sshfs
-    - stow
-    - tree
-    - unrar
-    - uzbl-tabbed
-    - vim
-    - vlc
-    - wget
-    - zsh
-
-- name: Enable sshd
-  systemd: state=started enabled=yes name=sshd
-
-- name: Clone EricCrosson/dotfiles.git
-  git: repo=git://github.com/ericcrosson/dotfiles.git
-       dest=/home/eric/dotfiles
-
-- name: Clone syl20bnr/spacemacs.git
-  git: repo=git://github.com/syl20bnr/spacemacs.git 
-       dest=/home/eric/.emacs.d
-
-- name: Install esc's dotfiles
   become: yes
-  become_user: eric
-  shell: cd /home/eric/dotfiles && stow emacs zsh htop
+  become_user: root
+
+  tasks:
+  - name: Ensure group "wheel" exists
+    group: name=wheel state=present
+  - name: Ensure group "power" exists
+    group: name=power state=present
+  - name: Ensure group "sudo" exists
+    group: name=sudo state=present
+
+  - name: Set hostname
+    hostname: name="{{ hostname }}"
+
+  - name: Set locale
+    locale_gen: name=en_US.UTF-8 state=present
+
+  - name: Install zsh
+    package: name=zsh state=installed
+
+  - name: Create user "{{ username }}"
+    user: name={{ username }}
+          state=present
+          groups=wheel,power,sudo
+          append=yes
+          generate_ssh_key=yes
+          ssh_key_bits=2048
+          ssh_key_file=.ssh/id_rsa
+          shell=/usr/bin/zsh
+
+  - name: Install build packages
+    package: name={{item}} state=installed
+    with_items: 
+      - cmake
+      - make
+      - gcc
+
+  - name: Install extraction tools
+    package: name={{item}} state=installed
+    with_items: 
+      - dtrx
+      - p7zip
+      - unrar
+
+  - name: Install network tools
+    package: name={{item}} state=installed
+    with_items: 
+      - curl
+      - git
+      - rsync
+      - wget
+
+  - name: Install dev tools
+    package: name={{item}} state=installed
+    with_items:
+      - emacs
+      - screen
+      - vim
+      - htop
+      - stow
+      - tree
+
+  - name: Install linux-headers
+    package: name=linux-headers-{{ ansible_kernel }} state=installed
+
+  - name: Install pacmatic
+    package: name=pacmatic state=installed
+    when: ansible_os_family == "Archlinux"
+
+  - name: Install openssh server on archlinux
+    package: name=openssh state=installed
+    when: ansible_os_family == "Archlinux"
+
+  - name: Enable sshd
+    service: state=started enabled=yes name=sshd
+    when: ansible_os_family == "Archlinux"
+
+  - name: Install openssh server on Ubuntu
+    package: name=openssh-server state=installed
+    when: ansible_os_family == "Debian"
+
+  - name: Enable sshd on Ubuntu
+    service: state=started enabled=yes name=ssh
+    when: ansible_os_family == "Debian"
+
+  - name: Install python
+    package: state=installed name=python-setuptools
+
+  - name: Install pip
+    shell: easy_install pip
+
+  - name: Install virtualenv
+    shell: pip install {{item}}
+    with_items:
+      - virtualenv
+      - virtualenvwrapper
+
+
+
+
+  - name: Clone EricCrosson/dotfiles.git
+    become: yes
+    become_user: "{{ username }}"
+    git: repo=git://github.com/ericcrosson/dotfiles.git
+         dest=/home/{{ username }}/dotfiles
+         depth=1
+  
+  - name: Clone syl20bnr/spacemacs.git
+    become: yes
+    become_user: "{{ username }}"
+    git: repo=git://github.com/syl20bnr/spacemacs.git 
+         dest=/home/{{ username }}/.emacs.d
+         depth=1
+         recursive=yes
+         force=yes
+
+  - name: Remove stow conflicts
+    become: yes
+    become_user: "{{ username }}"
+    file: state=absent path={{item}}
+    with_items:
+      - /home/{{ username }}/.emacs.d/private
+      - /home/{{ username }}/.config/htop/htoprc
+      - /home/{{ username }}/.bashrc
+
+  - name: Install esc's dotfiles
+    become: yes
+    become_user: "{{ username }}"
+    shell: cd /home/{{ username }}/dotfiles && stow emacs zsh htop urxvt screen ruby python bash bin

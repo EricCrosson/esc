@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Install graphical packages
+    package: name={{item}} state=installed
+    with_items:
+      - chromium
+      - chromium-pepper-flash
+      - dialog
+      - rxvt-unicode
+      - vlc
+      - uzbl-tabbed
+    when: ansible_os_family == "Archlinux"
+
+  - name: Install graphical packages
+    package: name={{item}} state=installed
+    with_items:
+      - chromium-browser
+      - dialog
+      - rxvt-unicode
+      - vlc
+      - uzbl
+    when: ansible_os_family == "Debian"

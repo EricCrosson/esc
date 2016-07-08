@@ -72,18 +72,6 @@ function reporter() {
     echo
 }
 
-# Set initial hostname
-hostname="archlinux-$(date -I)"
-
-reporter "Set hostname to ${hostname}"
-echo "${hostname}" >/etc/hostname
-
-reporter "Set locale"
-locale >/etc/locale.conf
-echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
-echo "en_US ISO-8859-1" >>/etc/locale.gen
-locale-gen
-
 # todo: make modifications to mkinitcpio.conf
 mkinitcpio -p linux
 
@@ -120,33 +108,8 @@ NOENTER=1
 USECOLOR=1
 EOF
 
-reporter "Install general packages"
-yaourt --noconfirm -S ${category_install}
-
-reporter "Install python tools"
-pacman --noconfirm -S python-setuptools
-easy_install pip
-pip install virtualenv{,wrapper}
-
-reporter "Install pacmatic"
-yaourt --noconfirm -S pacmatic
-# todo: configure pacmatic
-
 reporter "Set root password to \"root\""
 echo root:root | chpasswd
-
-# su ${username} <<END_OF_USER_SHELL
-# cd /home/${username}
-# 
-# reporter "Install Oh-My-Zsh"
-# sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-# 
-# reporter "Stow personal configs"
-# for app in ${stow_list}; do
-#     stow ${app}
-# done
-# 
-# END_OF_USER_SHELL
 
 END_OF_CHROOT
 
