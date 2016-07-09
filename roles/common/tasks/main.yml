@@ -56,6 +56,11 @@
     - tree
     - vim
 
+- name: Remove jank
+  package: name={{item}} state=absent
+  with_items:
+    - sl
+
 - name: Install linux-headers
   package: name=linux-headers-{{ ansible_kernel }} state=installed
 
