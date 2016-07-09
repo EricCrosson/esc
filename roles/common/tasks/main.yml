@@ -49,11 +49,12 @@
 - name: Install dev tools
   package: name={{item}} state=installed
   with_items:
-    - screen
-    - vim
     - htop
+    - pandoc
+    - screen
     - stow
     - tree
+    - vim
 
 - name: Install linux-headers
   package: name=linux-headers-{{ ansible_kernel }} state=installed
