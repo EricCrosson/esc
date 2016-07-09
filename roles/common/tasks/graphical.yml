@@ -1,0 +1,12 @@
+---
+- name: Install common graphical packages
+  package: name={{item}} state=installed
+  with_items:
+    - dialog
+    - rxvt-unicode
+    - vlc
+
+- name: Remove capslock from xorg keymap
+  gsetting: user={{ ansible_ssh_user }}
+            key=org.gnome.desktop.input-sources.xkb-options
+            value="['ctrl:nocaps']"

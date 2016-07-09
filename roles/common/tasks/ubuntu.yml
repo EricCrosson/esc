@@ -1,0 +1,28 @@
+---
+- name: Ensure group "sudo" exists
+  group: name=sudo state=present
+
+- name: Install openssh server on Ubuntu
+  package: name=openssh-server state=installed
+
+- name: Enable sshd on Ubuntu
+  service: state=started enabled=yes name=ssh
+
+- name: Add emacs-snapshot ppa
+  apt_repository:
+    repo='ppa:ubuntu-elisp'
+    state=present
+
+- name: Install emacs-snapshot
+  package: state=installed name=emacs-snapshot
+
+- name: Install pm-utils
+  package: state=installed name=pm-utils
+
+- name: Install graphical packages
+  package: name={{item}} state=installed
+  with_items:
+    - chromium-browser
+    - uzbl
+    - xclip
+  when: headless == false

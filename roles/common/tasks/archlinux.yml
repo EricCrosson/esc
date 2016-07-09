@@ -1,0 +1,27 @@
+---
+- name: Ensure group "wheel" exists
+  group: name=wheel state=present
+
+- name: Ensure group "power" exists
+  group: name=power state=present
+
+- name: Install openssh server
+  package: name=openssh state=installed
+
+- name: Enable sshd
+  service: state=started enabled=yes name=sshd
+
+- name: Install pacmatic
+  package: name=pacmatic state=installed
+
+- name: Install emacs
+  package: name=emacs state=installed
+
+- name: Install graphical packages
+  package: name={{item}} state=installed
+  with_items:
+    - chromium
+    - chromium-pepper-flash
+    - uzbl-tabbed
+    - xorg-xclip
+  when: headless == false

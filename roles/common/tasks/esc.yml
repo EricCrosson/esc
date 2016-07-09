@@ -1,0 +1,26 @@
+---
+- name: Clone EricCrosson/dotfiles.git
+  git: repo=git://github.com/ericcrosson/dotfiles.git
+       dest=/home/{{ ansible_ssh_user }}/dotfiles
+       depth=1
+
+- name: Clone syl20bnr/spacemacs.git
+  git: repo=git://github.com/syl20bnr/spacemacs.git 
+       dest=/home/{{ ansible_ssh_user }}/.emacs.d
+       depth=1
+       recursive=yes
+       force=yes
+
+- name: Remove stow conflicts
+  file: state=absent path={{item}}
+  with_items:
+    - /home/{{ ansible_ssh_user }}/.emacs.d/private
+    - /home/{{ ansible_ssh_user }}/.config/htop/htoprc
+    - /home/{{ ansible_ssh_user }}/.bashrc
+    - /home/{{ ansible_ssh_user }}/.zshrc
+
+- name: Install esc's dotfiles
+  shell: cd /home/{{ ansible_ssh_user }}/dotfiles && stow emacs zsh htop urxvt screen ruby python bash bin
+
+- name: Install oh-my-zsh
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

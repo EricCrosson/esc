@@ -1,0 +1,4 @@
+---
+hostname: necho
+work: yes
+headless: false

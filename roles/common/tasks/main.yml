@@ -1,0 +1,80 @@
+---
+- include: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- include: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Set hostname
+  hostname: name="{{ hostname }}"
+
+- name: Set locale
+  locale_gen: name=en_US.UTF-8 state=present
+
+- name: Install zsh
+  package: name=zsh state=installed
+
+- name: Create user "{{ ansible_ssh_user }}"
+  user: name={{ ansible_ssh_user }}
+        state=present
+        groups=wheel,power,sudo
+        append=yes
+        generate_ssh_key=yes
+        ssh_key_bits=2048
+        ssh_key_file=.ssh/id_rsa
+        shell=/usr/bin/zsh
+
+- name: Install build packages
+  package: name={{item}} state=installed
+  with_items: 
+    - cmake
+    - make
+    - gcc
+
+- name: Install extraction tools
+  package: name={{item}} state=installed
+  with_items: 
+    - dtrx
+    - p7zip
+    - unrar
+
+- name: Install network tools
+  package: name={{item}} state=installed
+  with_items: 
+    - curl
+    - git
+    - rsync
+    - wget
+
+- name: Install dev tools
+  package: name={{item}} state=installed
+  with_items:
+    - screen
+    - vim
+    - htop
+    - stow
+    - tree
+
+- name: Install linux-headers
+  package: name=linux-headers-{{ ansible_kernel }} state=installed
+
+- name: Install python
+  package: state=installed name=python-setuptools
+
+- name: Install pip
+  shell: easy_install pip
+
+- name: Install virtualenv
+  shell: pip install {{item}}
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+
+
+
+- include: esc.yml
+  become: yes
+  become_user: "{{ ansible_ssh_user }}"
+
+- include: graphical.yml
+  when: headless == false
