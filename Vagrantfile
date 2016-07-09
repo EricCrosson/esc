@@ -70,6 +70,6 @@ Vagrant.configure(2) do |config|
     pacman -Sy --noconfirm ansible
   SHELL
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "esc.yml"
+    ansible.playbook = "site.yml"
   end
 end
