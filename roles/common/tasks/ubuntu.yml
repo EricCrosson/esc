@@ -26,3 +26,9 @@
     - uzbl
     - xclip
   when: headless == false
+
+- name: Assume yes for apt
+  lineinfile:
+    dest=/etc/apt/apt.conf.d/90assume-yes
+    line="APT::Get::Assume-Yes \"true\";"
+    create=yes
