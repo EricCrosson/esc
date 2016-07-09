@@ -11,8 +11,8 @@ It came mostly assembled, and every time I use it I automate a little bit more.
 You can dump this into your shell to run the script:
 
 #+BEGIN_SRC sh
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/archlinux-install.sh)"
-  # sh -c "$(curl -fsSL https://goo.gl/avq60m)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/scripts/archlinux-install.sh)"
+  # sh -c "$(curl -fsSL https://goo.gl/SdF6YW)"
 #+END_SRC
 
 Or, if you prefer editing the script first:
