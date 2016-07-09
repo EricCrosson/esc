@@ -2,3 +2,12 @@
 hostname: necho
 work: yes
 headless: false
+
+# gnome variables
+gsettings:
+  favorite-apps:
+    key: org.gnome.shell.favorite-apps
+    value: "['gnome-terminal.desktop', 'nautilus.desktop', 'emacs-snapshot.desktop', 'chromium-browser.desktop']"
+  clock-date:
+    key: org.gnome.desktop.interface.clock-show-date
+    value: true

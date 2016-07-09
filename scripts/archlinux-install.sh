@@ -46,7 +46,9 @@ pacman -Syy
 pacstrap /mnt base base-devel
 
 reporter "Install system"
-arch-chroot /mnt pacman --noconfirm -S syslinux
+arch-chroot /mnt pacman --noconfirm -S \
+    ansible \
+    syslinux
 
 reporter "Install new ranked mirrorlist"
 cp /etc/pacman.d/mirrorlist* /mnt/etc/pacman.d
