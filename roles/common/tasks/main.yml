@@ -52,6 +52,7 @@
     - git
     - rsync
     - wget
+    - deluge
 
 - name: Install dev tools
   package: name={{item}} state=installed
