@@ -25,3 +25,23 @@
     - uzbl-tabbed
     - xorg-xclip
   when: headless == false
+
+- name: Removing syslinux timeout to one-half second
+  lineinfile:
+    dest: /boot/syslinux/syslinux.cfg
+    state: absent
+    regexp: "TIMEOUT"
+    
+- name: Setting syslinux timeout to one-half second
+  lineinfile:
+    dest: /boot/syslinux/syslinux.cfg
+    state: present
+    line: "TIMEOUT 5"
+    insertafter: "^PROMPT"
+
+- name: Allow group wheel to use sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    insertafter: "# %wheel ALL=(ALL) NOPASSWD: ALL"

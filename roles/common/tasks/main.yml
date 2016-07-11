@@ -38,6 +38,13 @@
     - p7zip
     - unrar
 
+- name: Install media tools
+  package: name={{item}} state=installed
+  with_items:
+    - ristretto
+    - tumbler
+    - vlc
+
 - name: Install network tools
   package: name={{item}} state=installed
   with_items: 
@@ -64,19 +71,9 @@
 - name: Install linux-headers
   package: name=linux-headers-{{ ansible_kernel }} state=installed
 
-- name: Install python
-  package: state=installed name=python-setuptools
-
-- name: Install pip
-  shell: easy_install pip
-
-- name: Install virtualenv
-  shell: pip install {{item}}
-  with_items:
-    - virtualenv
-    - virtualenvwrapper
 
 
+- include: python.yml
 
 - include: esc.yml
   become: yes

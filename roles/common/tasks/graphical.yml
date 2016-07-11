@@ -17,3 +17,5 @@
     value={{ item.value.value }}"
   with_dict: "{{ gsettings }}"
   ignore_errors: true
+
+# - include: bspwm.yml

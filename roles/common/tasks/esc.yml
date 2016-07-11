@@ -20,7 +20,25 @@
     - /home/{{ ansible_ssh_user }}/.zshrc
 
 - name: Install esc's dotfiles
-  shell: cd /home/{{ ansible_ssh_user }}/dotfiles && stow emacs zsh htop urxvt screen ruby python bash bin
+  shell: cd /home/{{ ansible_ssh_user }}/dotfiles && stow {{item}}
+  with_items:
+    - bash
+    - bin
+    - bspwm
+    - emacs
+    - htop
+    - python
+    - ruby
+    - screen
+    - urxvt
+    - zsh
 
+# consider using galaxy role
 - name: Install oh-my-zsh
   shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+- name: Create workspace dir
+  file: 
+    path: /home/{{ ansible_ssh_user }}/workspace
+    state: directory
+    mode: 0775

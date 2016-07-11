@@ -32,3 +32,10 @@
     dest=/etc/apt/apt.conf.d/90assume-yes
     line="APT::Get::Assume-Yes \"true\";"
     create=yes
+
+- name: Allow {{ ansible_ssh_user }} to use sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: "eric ALL=(ALL) NOPASSWD: ALL" 
+    insertafter: "%sudo   ALL=(ALL:ALL) ALL"

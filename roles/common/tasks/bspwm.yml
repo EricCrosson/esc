@@ -1,0 +1,75 @@
+---
+- name: Install dependencies
+  package: state=present name={{item}}
+  with_items:
+    - xcb
+    - libxcb-util0-dev
+    - libxcb-ewmh-dev
+    - libxcb-randr0-dev
+    - libxcb-icccm4-dev
+    - libxcb-keysyms1-dev
+    - libxcb-xinerama0-dev
+    - libasound2-dev
+  when: ansible_os_family == "Debian"
+
+- name: Install dependencies
+  package: state=present name={{item}}
+  with_items:
+    - xcb-util
+    - xcb-util-keysyms
+    - xcb-util-wm
+  when: ansible_os_family == "Archlinux"
+
+- name: Install build tools
+  package: state=present name={{item}}
+  with_items:
+    - gcc
+    - make
+
+- name: Install bspwm tools
+  package: state=present name={{item}}
+  with_items:
+    - feh
+    - ranger
+    - w3m
+
+- name: Check for bspwm
+  command: which bspwm
+  register: bspwm
+  ignore_errors: yes
+
+- name: Check for sxhkd
+  command: which sxhkd
+  register: sxhkd
+  ignore_errors: yes
+
+- name: Clone bspwm
+  git:
+    repo: https://github.com/baskerville/bspwm.git
+    dest: /home/{{ ansible_ssh_user }}/workspace/bspwm
+    depth: 1
+    force: yes
+  when: bspwm|failed
+
+- name: Make bspwm
+  command: '"cd /home/{{ ansible_ssh_user }}/workspace/bspwm" && "make" && "sudo make install"'
+  when: bspwm|failed
+
+- name: Clone sxhkd
+  git:
+    repo: https://github.com/baskerville/sxhkd.git
+    dest: /home/{{ ansible_ssh_user }}/workspace/sxhkd
+    depth: 1
+    force: yes
+  when: sxhkd|failed
+
+- name: Make sxhkd
+  command: '"make -C /home/{{ ansible_ssh_user }}/workspace/sxhkd" && "sudo make -C /home/{{ ansible_ssh_user }}/workspace/sxhkd install"'
+  when: sxhkd|failed
+
+- name: Add bspwm to display manager
+  become: yes
+  become_user: root
+  command: cp /home/eric/workspace/sxhkd/contrib/freedesktop/bspwm.desktop /usr/share/xsessions
+
+# TODO: remove temp cloned dirs
