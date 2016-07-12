@@ -1,7 +1,8 @@
 Archlinux Bootstrap
 ===================
 
-https://travis-ci.org/EricCrosson/archlinux-install.svg?branch=master
+.. image:: https://travis-ci.org/EricCrosson/archlinux-install.svg?branch=master
+   :target: https://travis-ci.org/EricCrosson/archlinux-install
 
 Inspired by `wuputah <https://github.com/wuputah>`_'s vm-bootstrapping
 `gist <https://gist.github.com/wuputah/4982514>`_, this script
