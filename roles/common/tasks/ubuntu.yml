@@ -2,6 +2,12 @@
 - name: Ensure group "sudo" exists
   group: name=sudo state=present
 
+- name: add {{ ansible_ssh_user }} to group sudo
+  user:
+    name: "{{ ansible_ssh_user }}"
+    groups: sudo
+    append: yes
+
 - name: Install openssh server on Ubuntu
   package: name=openssh-server state=installed
 
@@ -26,6 +32,9 @@
     - uzbl
     - xclip
   when: headless == false
+
+- name: install dtrx
+  package: name=dtrx state=installed
 
 - name: Assume yes for apt
   lineinfile:

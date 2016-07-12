@@ -17,8 +17,6 @@
 - name: Create user "{{ ansible_ssh_user }}"
   user: name={{ ansible_ssh_user }}
         state=present
-        groups=wheel,power,sudo
-        append=yes
         generate_ssh_key=yes
         ssh_key_bits=2048
         ssh_key_file=.ssh/id_rsa
@@ -34,16 +32,8 @@
 - name: Install extraction tools
   package: name={{item}} state=installed
   with_items: 
-    - dtrx
     - p7zip
     - unrar
-
-- name: Install media tools
-  package: name={{item}} state=installed
-  with_items:
-    - ristretto
-    - tumbler
-    - vlc
 
 - name: Install network tools
   package: name={{item}} state=installed
@@ -72,8 +62,12 @@
     - sl
 
 - name: Install linux-headers
-  package: name=linux-headers-{{ ansible_kernel }} state=installed
+  package: name=linux-headers state=installed
+  when: ansible_os_family == "Archlinux"
 
+- name: Install linux-headers
+  package: name=linux-headers-{{ ansible_kernel }} state=installed
+  when: ansible_os_family == "Debian"
 
 
 - include: python.yml

@@ -5,6 +5,12 @@
 - name: Ensure group "power" exists
   group: name=power state=present
 
+- name: Add {{ ansible_ssh_user }} to new groups
+  user:
+    name: "{{ ansible_ssh_user }}"
+    groups: wheel,power
+    append: yes
+
 - name: Install openssh server
   package: name=openssh state=installed
 
@@ -21,10 +27,13 @@
   package: name={{item}} state=installed
   with_items:
     - chromium
-    - chromium-pepper-flash
     - uzbl-tabbed
-    - xorg-xclip
+    - xclip
   when: headless == false
+
+#- name: install chromium-pepper-flash
+  #command: yaourt --noconfirm -S chromium-pepper-flash
+  # and dtrx
 
 - name: Removing syslinux timeout to one-half second
   lineinfile:

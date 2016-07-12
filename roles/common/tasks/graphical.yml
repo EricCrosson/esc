@@ -5,6 +5,8 @@
     - dialog
     - rxvt-unicode
     - vlc
+    - ristretto
+    - tumbler
 
 - name: Remove capslock from xorg keymap
   gsetting: user={{ ansible_ssh_user }}
