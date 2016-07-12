@@ -90,11 +90,11 @@ sed 's/root=.*/root=\/dev\/sda2 ro/' < /boot/syslinux/syslinux.cfg > /boot/sysli
 mv /boot/syslinux/syslinux.cfg.new /boot/syslinux/syslinux.cfg
 
 reporter "Install yaourt"
-cat <<EOF >> /etc/pacman.conf
+cat << 'EOF' >> /etc/pacman.conf
 
 [archlinuxfr]
 SigLevel = Never
-Server = http://repo.archlinux.fr/\$arch
+Server = http://repo.archlinux.fr/$arch
 EOF
 pacman --noconfirm -Sy yaourt
 
