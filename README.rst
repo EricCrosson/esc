@@ -18,8 +18,8 @@ You can dump this into your shell to run the script
 
 .. code-block:: bash
 
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/scripts/archlinux-install.sh)"
-    # sh -c "$(curl -fsSL https://goo.gl/SdF6YW)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/EricCrosson/esc/master/scripts/archlinux-install.sh)"
+    # sh -c "$(curl -fsSL https://goo.gl/N2wS86)"
 
 Or, if you prefer editing the script first
 
