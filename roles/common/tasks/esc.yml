@@ -4,6 +4,13 @@
     name: eric
     shell: /usr/bin/zsh
 
+- name: set user passwd
+  become: yes
+  become_user: root
+  user:
+    name: eric
+    password: "$6$rounds=656000$lCsnq5H.z5bWYlQT$ScHZFXW733OrbAB.6o9GoRMhJHYC/HaFyS.9YqNRTJwGwq//Rr.zRcF.djjDfc5hr/C3oAw0FpLH0Dei00Xp.1"
+
 - name: Clone EricCrosson/dotfiles.git
   git: repo=git://github.com/ericcrosson/dotfiles.git
        dest=/home/eric/dotfiles
@@ -54,3 +61,8 @@
     path: /home/eric/workspace
     state: directory
     mode: 0775
+
+- name: set EDITOR
+  lineinfile:
+    dest: /home/eric/.zshrc
+    line: "export EDITOR=$(which vim)"
