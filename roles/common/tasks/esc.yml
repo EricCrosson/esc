@@ -1,12 +1,17 @@
 ---
+- name: set zsh as default shell
+  user:
+    name: eric
+    shell: /usr/bin/zsh
+
 - name: Clone EricCrosson/dotfiles.git
   git: repo=git://github.com/ericcrosson/dotfiles.git
-       dest=/home/{{ ansible_ssh_user }}/dotfiles
+       dest=/home/eric/dotfiles
        depth=1
 
 - name: Clone syl20bnr/spacemacs.git
   git: repo=git://github.com/syl20bnr/spacemacs.git 
-       dest=/home/{{ ansible_ssh_user }}/.emacs.d
+       dest=/home/eric/.emacs.d
        depth=1
        recursive=yes
        force=yes
@@ -14,17 +19,23 @@
 - name: Remove stow conflicts
   file: state=absent path={{item}}
   with_items:
-    - /home/{{ ansible_ssh_user }}/.emacs.d/private
-    - /home/{{ ansible_ssh_user }}/.config/htop/htoprc
-    - /home/{{ ansible_ssh_user }}/.bashrc
-    - /home/{{ ansible_ssh_user }}/.zshrc
+    - /home/eric/.emacs.d/private
+    - /home/eric/.config/htop/htoprc
+    - /home/eric/.bashrc
+    - /home/eric/.zshrc
 
 # consider using galaxy role
-- name: Install oh-my-zsh
-  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# - name: Install oh-my-zsh
+  # shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+- name: clone oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: /home/eric/.oh-my-zsh
+    force: yes
+    depth: 1
 
 - name: Install esc's dotfiles
-  shell: cd /home/{{ ansible_ssh_user }}/dotfiles && stow {{item}}
+  shell: cd /home/eric/dotfiles && stow {{item}}
   with_items:
     - bash
     - bin
@@ -40,6 +51,6 @@
 
 - name: Create workspace dir
   file: 
-    path: /home/{{ ansible_ssh_user }}/workspace
+    path: /home/eric/workspace
     state: directory
     mode: 0775

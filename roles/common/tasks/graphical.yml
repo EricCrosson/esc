@@ -9,12 +9,12 @@
     - tumbler
 
 - name: Remove capslock from xorg keymap
-  gsetting: user={{ ansible_ssh_user }}
+  gsetting: user=eric
             key=org.gnome.desktop.input-sources.xkb-options
             value="['ctrl:nocaps']"
 
 - name: Change dconf settings
-  gsetting: "user={{ ansible_ssh_user }}
+  gsetting: "user=eric
     key={{ item.value.key }}
     value={{ item.value.value }}"
   with_dict: "{{ gsettings }}"

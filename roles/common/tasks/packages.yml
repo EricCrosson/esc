@@ -1,0 +1,47 @@
+---
+- name: Install build packages
+  package: name={{item}} state=installed
+  with_items: 
+    - cmake
+    - make
+    - gcc
+
+- name: Install extraction tools
+  package: name={{item}} state=installed
+  with_items: 
+    - p7zip
+    - unrar
+
+- name: Install network tools
+  package: name={{item}} state=installed
+  with_items: 
+    - curl
+    - git
+    - iftop
+    - iotop
+    - rsync
+    - wget
+    - deluge
+
+- name: Install dev tools
+  package: name={{item}} state=installed
+  with_items:
+    - htop
+    - pandoc
+    - screen
+    - stow
+    - tree
+    - vim
+
+- name: Remove jank
+  package: name={{item}} state=absent
+  with_items:
+    - sl
+
+- name: Install linux-headers
+  package: name=linux-headers state=installed
+  when: ansible_os_family == "Archlinux"
+
+- name: Install linux-headers
+  package: name=linux-headers-{{ ansible_kernel }} state=installed
+  when: ansible_os_family == "Debian"

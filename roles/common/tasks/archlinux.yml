@@ -5,9 +5,9 @@
 - name: Ensure group "power" exists
   group: name=power state=present
 
-- name: Add {{ ansible_ssh_user }} to new groups
+- name: Add eric to new groups
   user:
-    name: "{{ ansible_ssh_user }}"
+    name: "eric"
     groups: wheel,power
     append: yes
 

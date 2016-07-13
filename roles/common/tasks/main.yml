@@ -14,67 +14,21 @@
 - name: Install zsh
   package: name=zsh state=installed
 
-- name: Create user "{{ ansible_ssh_user }}"
-  user: name={{ ansible_ssh_user }}
+- name: Create user "eric"
+  user: name=eric
         state=present
         generate_ssh_key=yes
         ssh_key_bits=2048
         ssh_key_file=.ssh/id_rsa
         shell=/usr/bin/zsh
 
-- name: Install build packages
-  package: name={{item}} state=installed
-  with_items: 
-    - cmake
-    - make
-    - gcc
-
-- name: Install extraction tools
-  package: name={{item}} state=installed
-  with_items: 
-    - p7zip
-    - unrar
-
-- name: Install network tools
-  package: name={{item}} state=installed
-  with_items: 
-    - curl
-    - git
-    - iftop
-    - iotop
-    - rsync
-    - wget
-    - deluge
-
-- name: Install dev tools
-  package: name={{item}} state=installed
-  with_items:
-    - htop
-    - pandoc
-    - screen
-    - stow
-    - tree
-    - vim
-
-- name: Remove jank
-  package: name={{item}} state=absent
-  with_items:
-    - sl
-
-- name: Install linux-headers
-  package: name=linux-headers state=installed
-  when: ansible_os_family == "Archlinux"
-
-- name: Install linux-headers
-  package: name=linux-headers-{{ ansible_kernel }} state=installed
-  when: ansible_os_family == "Debian"
-
+- include: packages.yml
 
 - include: python.yml
 
 - include: esc.yml
   become: yes
-  become_user: "{{ ansible_ssh_user }}"
+  become_user: "eric"
 
 - include: graphical.yml
   when: headless == false

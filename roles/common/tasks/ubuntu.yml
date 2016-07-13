@@ -1,10 +1,13 @@
 ---
+- name: update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
 - name: Ensure group "sudo" exists
   group: name=sudo state=present
 
-- name: add {{ ansible_ssh_user }} to group sudo
+- name: add eric to group sudo
   user:
-    name: "{{ ansible_ssh_user }}"
+    name: "eric"
     groups: sudo
     append: yes
 
@@ -42,7 +45,7 @@
     line="APT::Get::Assume-Yes \"true\";"
     create=yes
 
-- name: Allow {{ ansible_ssh_user }} to use sudo
+- name: Allow eric to use sudo
   lineinfile:
     dest: /etc/sudoers
     state: present

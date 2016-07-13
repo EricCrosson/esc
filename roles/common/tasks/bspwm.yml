@@ -46,25 +46,25 @@
 - name: Clone bspwm
   git:
     repo: https://github.com/baskerville/bspwm.git
-    dest: /home/{{ ansible_ssh_user }}/workspace/bspwm
+    dest: /home/eric/workspace/bspwm
     depth: 1
     force: yes
   when: bspwm|failed
 
 - name: Make bspwm
-  command: '"cd /home/{{ ansible_ssh_user }}/workspace/bspwm" && "make" && "sudo make install"'
+  command: '"cd /home/eric/workspace/bspwm" && "make" && "sudo make install"'
   when: bspwm|failed
 
 - name: Clone sxhkd
   git:
     repo: https://github.com/baskerville/sxhkd.git
-    dest: /home/{{ ansible_ssh_user }}/workspace/sxhkd
+    dest: /home/eric/workspace/sxhkd
     depth: 1
     force: yes
   when: sxhkd|failed
 
 - name: Make sxhkd
-  command: '"make -C /home/{{ ansible_ssh_user }}/workspace/sxhkd" && "sudo make -C /home/{{ ansible_ssh_user }}/workspace/sxhkd install"'
+  command: '"make -C /home/eric/workspace/sxhkd" && "sudo make -C /home/eric/workspace/sxhkd install"'
   when: sxhkd|failed
 
 - name: Add bspwm to display manager

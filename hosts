@@ -1,5 +1,10 @@
 [targets]
-localhost ansible_ssh_user=eric
+localhost ansible_ssh_user=root ansible_connection=local
 
 [targets:vars]
-ansible_python_interpreter=/usr/bin/python2
+hostname=bullseye
+work=yes
+headless=true
+
+ansible_python_interpreter="/usr/bin/env python2"
+
