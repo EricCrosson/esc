@@ -10,6 +10,10 @@ interfaces with the `Arch GNU/Linux <https://www.archlinux.org/>`_
 installer shell and provisions a simple, working system.
 
 Also included is an ansible role to configure my personal hosts.
+Supported distrubitions:
+
+- Archlinux
+- Ubuntu
 
 Installation
 ------------
@@ -25,7 +29,7 @@ Or, if you prefer editing the script first
 
 .. code-block:: bash
 
-    wget -O installer.sh https://raw.githubusercontent.com/EricCrosson/archlinux-install/master/archlinux-install.sh && \
+    wget -O installer.sh https://raw.githubusercontent.com/EricCrosson/esc/master/scripts/archlinux-install.sh && \
     chmod +x installer.sh && \
     vi installer.sh && ./installer.sh
 
@@ -34,7 +38,7 @@ After provisioning from inside the installer, configure
 
 .. code-block:: bash
 
-    ansible-playbook -i hosts site.yml
+    ansible-playbook -i hosts site.yml [work.yml] [graphical.yml]
 
 Credits
 -------
