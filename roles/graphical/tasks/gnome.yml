@@ -10,4 +10,4 @@
     - gdm
 
 - name: start gdm at boot
-  service: name=gdm enabled=yes state=restarted
+  service: name=gdm enabled=yes state=started

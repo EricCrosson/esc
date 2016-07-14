@@ -1,5 +1,5 @@
 ---
-- name: Install common graphical packages
+- name: install common graphical packages
   package: name={{item}} state=installed
   with_items:
     - dialog
@@ -7,6 +7,21 @@
     - vlc
     - ristretto
     - tumbler
+    - xclip
+
+- name: Install graphical packages
+  package: name={{item}} state=installed
+  with_items:
+    - chromium
+    - uzbl-tabbed
+  when: ansible_os_family == "Archlinux"
+
+- name: Install graphical packages
+  package: name={{item}} state=installed
+  with_items:
+    - chromium-browser
+    - uzbl
+  when: ansible_os_family == "Debian"
 
 - name: Remove capslock from xorg keymap
   gsetting: user=eric

@@ -25,14 +25,6 @@
 - name: Install emacs-snapshot
   package: state=installed name=emacs-snapshot
 
-- name: Install graphical packages
-  package: name={{item}} state=installed
-  with_items:
-    - chromium-browser
-    - uzbl
-    - xclip
-  when: headless == false
-
 - name: install ubuntu packages
   package: name={{item}} state=installed
   with_items:

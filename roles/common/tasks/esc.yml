@@ -29,7 +29,6 @@
   file: state=absent path={{item}}
   with_items:
     - /home/eric/.emacs.d/private
-    - /home/eric/.config/htop/htoprc
     - /home/eric/.bashrc
     - /home/eric/.zshrc
 

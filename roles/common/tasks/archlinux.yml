@@ -26,14 +26,6 @@
     - pacmatic
     - emacs
 
-- name: Install graphical packages
-  package: name={{item}} state=installed
-  with_items:
-    - chromium
-    - uzbl-tabbed
-    - xclip
-  when: headless == false
-
 #- name: install chromium-pepper-flash
   #command: yaourt --noconfirm -S chromium-pepper-flash
   # and dtrx
