@@ -25,9 +25,6 @@
 - name: Install emacs-snapshot
   package: state=installed name=emacs-snapshot
 
-- name: Install pm-utils
-  package: state=installed name=pm-utils
-
 - name: Install graphical packages
   package: name={{item}} state=installed
   with_items:
@@ -36,8 +33,11 @@
     - xclip
   when: headless == false
 
-- name: install dtrx
-  package: name=dtrx state=installed
+- name: install ubuntu packages
+  package: name={{item}} state=installed
+  with_items:
+    - dtrx
+    - pm-utils
 
 - name: Assume yes for apt
   lineinfile:

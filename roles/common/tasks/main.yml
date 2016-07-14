@@ -8,27 +8,11 @@
 - name: Set hostname
   hostname: name="{{ hostname }}"
 
-- name: Set locale
-  locale_gen: name=en_US.UTF-8 state=present
-
-- name: Install zsh
-  package: name=zsh state=installed
-
-- name: Create user "eric"
-  user: name=eric
-        state=present
-        generate_ssh_key=yes
-        ssh_key_bits=2048
-        ssh_key_file=.ssh/id_rsa
-        shell=/usr/bin/zsh
+- include: locale.yml
 
 - include: packages.yml
-
-- include: python.yml
 
 - include: esc.yml
   become: yes
   become_user: "eric"
 
-- include: graphical.yml
-  when: headless == false

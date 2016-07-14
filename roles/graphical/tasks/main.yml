@@ -20,4 +20,5 @@
   with_dict: "{{ gsettings }}"
   ignore_errors: true
 
+- include: gnome.yml
 # - include: bspwm.yml

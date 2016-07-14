@@ -1,17 +1,17 @@
 ---
-- name: Install python
+- name: install python-setuptools
   package: state=installed name=python-setuptools
 
-- name: Check for pip
+- name: check for pip
   command: which pip
   register: pip
   ignore_errors: yes
 
-- name: Install pip
+- name: install pip
   command: easy_install pip
   when: pip|failed
 
-- name: Install virtualenv
+- name: upgrade virtualenv
   shell: pip install --upgrade {{item}}
   with_items:
     - virtualenv

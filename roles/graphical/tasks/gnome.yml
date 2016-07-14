@@ -1,0 +1,13 @@
+---
+- name: install gnome-shell
+  apt: name={{item}} state=installed force=yes
+  with_items:
+    - xorg
+    - gnome-core
+    - gnome-system-tools
+    - gnome-app-install
+    - gnome-shell
+    - gdm
+
+- name: start gdm at boot
+  service: name=gdm enabled=yes state=restarted

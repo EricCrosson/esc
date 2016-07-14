@@ -1,0 +1,11 @@
+---
+- name: install apt proxy
+  lineinfile:
+    dest: /etc/apt/apt.conf.d/01proxy
+    line: "Acquire::http::Proxy \"10.162.1.157:3142\";"
+    state: present
+    create: yes
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_os_family == "Debian"

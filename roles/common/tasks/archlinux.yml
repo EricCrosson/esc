@@ -1,9 +1,12 @@
 ---
-- name: Ensure group "wheel" exists
-  group: name=wheel state=present
+- name: update pacman cache
+  pacman: update_cache=yes
 
-- name: Ensure group "power" exists
-  group: name=power state=present
+- name: Ensure groups exist
+  group: name={{item}} state=present
+  with_items:
+    - power
+    - wheel
 
 - name: Add eric to new groups
   user:
@@ -17,11 +20,11 @@
 - name: Enable sshd
   service: state=started enabled=yes name=sshd
 
-- name: Install pacmatic
-  package: name=pacmatic state=installed
-
-- name: Install emacs
-  package: name=emacs state=installed
+- name: install archlinux packages
+  package: name={{item}} state=installed
+  with_items:
+    - pacmatic
+    - emacs
 
 - name: Install graphical packages
   package: name={{item}} state=installed

@@ -1,27 +1,29 @@
 ---
-- name: set zsh as default shell
-  user:
-    name: eric
-    shell: /usr/bin/zsh
-
-- name: set user passwd
+- name: Create user "eric"
   become: yes
   become_user: root
   user:
     name: eric
+    state: present
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    shell: /usr/bin/zsh
     password: "$6$rounds=656000$lCsnq5H.z5bWYlQT$ScHZFXW733OrbAB.6o9GoRMhJHYC/HaFyS.9YqNRTJwGwq//Rr.zRcF.djjDfc5hr/C3oAw0FpLH0Dei00Xp.1"
 
 - name: Clone EricCrosson/dotfiles.git
-  git: repo=git://github.com/ericcrosson/dotfiles.git
-       dest=/home/eric/dotfiles
-       depth=1
+  git:
+    repo: git://github.com/ericcrosson/dotfiles.git
+    dest: /home/eric/dotfiles
+    depth: 1
 
 - name: Clone syl20bnr/spacemacs.git
-  git: repo=git://github.com/syl20bnr/spacemacs.git 
-       dest=/home/eric/.emacs.d
-       depth=1
-       recursive=yes
-       force=yes
+  git:
+    repo: git://github.com/syl20bnr/spacemacs.git 
+    dest: /home/eric/.emacs.d
+    depth: 1
+    recursive: yes
+    force: yes
 
 - name: Remove stow conflicts
   file: state=absent path={{item}}

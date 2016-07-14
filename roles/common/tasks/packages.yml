@@ -23,6 +23,11 @@
     - wget
     - deluge
 
+- name: install ruby
+  package: name={{item}} state=installed
+  with_items:
+    - ruby
+
 - name: Install dev tools
   package: name={{item}} state=installed
   with_items:
@@ -32,6 +37,7 @@
     - stow
     - tree
     - vim
+    - zsh
 
 - name: Remove jank
   package: name={{item}} state=absent
@@ -45,3 +51,5 @@
 - name: Install linux-headers
   package: name=linux-headers-{{ ansible_kernel }} state=installed
   when: ansible_os_family == "Debian"
+
+- include: python.yml
