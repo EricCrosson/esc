@@ -12,7 +12,7 @@
   when: pip|failed
 
 - name: upgrade virtualenv
-  shell: pip install --upgrade {{item}}
+  pip: name={{item}} state=latest
   with_items:
     - virtualenv
     - virtualenvwrapper
