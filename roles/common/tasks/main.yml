@@ -1,18 +1,23 @@
 ---
 - include: archlinux.yml
+  become: yes
+  become_user: root
   when: ansible_os_family == "Archlinux"
 
 - include: ubuntu.yml
+  become: yes
+  become_user: root
   when: ansible_os_family == "Debian"
-
-- name: Set hostname
-  hostname: name="{{ hostname }}"
 
 - include: locale.yml
 
 - include: packages.yml
+  become: yes
+  become_user: root
 
 - include: esc.yml
-  become: yes
-  become_user: "eric"
 
+- include: graphical.yml
+  become: yes
+  become_user: root
+  when: graphical is defined

@@ -1,9 +1,0 @@
----
-- name: Setup my work machines
-
-  become: yes
-  become_user: root
-
-  hosts: all
-  roles:
-    - work

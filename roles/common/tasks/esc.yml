@@ -49,11 +49,9 @@
     - bin
     - bspwm
     - emacs
-    - git
     - htop
     - python
     - ruby
-    - screen
     - urxvt
     - zsh
 

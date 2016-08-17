@@ -1,9 +1,5 @@
 ---
-- name: Setup my personal machines
-
-  become: yes
-  become_user: root
-
-  hosts: all
+- name: Setup esc's personal machines
+  hosts: "{{ target }}"
   roles:
     - common
