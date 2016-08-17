@@ -44,10 +44,9 @@ After provisioning from inside the installer, configure
 
 .. code-block:: bash
 
-    ansible-playbook -i hosts site.yml [work.yml] [graphical.yml]
+    ansible-playbook -i hosts site.yml
 
-If you are at work on desire a graphical environment, add the extra
-playbooks as desired.
+    **Tip**: add :code:`-e 'graphical=true'` to install the Gnome wm.
 
 Credits
 -------

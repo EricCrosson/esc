@@ -1,0 +1,22 @@
+---
+- name: install gnome-shell
+  apt: name={{item}} state=installed force=yes
+  with_items:
+    - xorg
+    - gnome-system-tools
+    - gnome-core
+    - gnome-app-install
+    - gnome-shell
+    - gdm
+  when: ansible_os_family == "Debian"
+
+- name: install gnome-shell
+  pacman: name={{item}} state=installed
+  with_items:
+    - xorg
+    - gnome-shell
+    - gnome
+  when: ansible_os_family == "Archlinux"
+
+- name: start gdm at boot
+  service: name=gdm enabled=yes state=started
